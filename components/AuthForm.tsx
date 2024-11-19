@@ -20,6 +20,7 @@ import {
 import { Input } from '@/components/ui/input';
 import CustomInput from './CustomInput';
 import { authFormSchema } from '@/lib/utils';
+import { Loader2 } from 'lucide-react';
 
 
 // Form validation schema
@@ -27,6 +28,7 @@ import { authFormSchema } from '@/lib/utils';
 
 const AuthForm = ({ type }: { type: string }) => {
   const [user, setUser] = useState(null);
+  const [isLoading , setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof authFormSchema>>({
     resolver: zodResolver(authFormSchema),
@@ -38,6 +40,9 @@ const AuthForm = ({ type }: { type: string }) => {
 
   async function onSubmit(values: z.infer<typeof authFormSchema>) {
     console.log("Submitted Values:", values);
+    setIsLoading(true)
+    consolelog(vlues)
+    setIsLoading(flase);
   }
 
   return (
@@ -88,7 +93,16 @@ const AuthForm = ({ type }: { type: string }) => {
        
       
             {/* Submit Button */}
-            <Button className='form-btn'  type="submit">Submit</Button>
+            <Button className='form-btn'  type="submit"  disabled={ isLoading}>
+              {isLoading?(
+                <>
+                <Loader2 size={20} className='animate-spin'/>; &nbsp;
+                Loading...
+                
+                </>
+              ): type==='sign-in'?
+            'sign-in': 'sign up'}
+            </Button>
           </form>
         </Form>
       )}
